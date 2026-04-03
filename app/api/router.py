@@ -2,6 +2,8 @@ from fastapi import APIRouter
 
 from app.auth.router import router as auth_router
 from app.condominio.router import router as condominio_router
+from app.configuracoes.router import router as configuracoes_router
+from app.dashboard.router import router as dashboard_router
 from app.integracoes.importador.router import router as importador_router
 from app.morador.router import router as morador_router
 from app.presenca.router import router as presenca_router
@@ -16,6 +18,8 @@ from app.telao.websocket import router as telao_websocket_router
 router = APIRouter()
 router.include_router(auth_router)
 router.include_router(condominio_router)
+router.include_router(configuracoes_router)
+router.include_router(dashboard_router)
 router.include_router(unidade_router)
 router.include_router(morador_router)
 router.include_router(importador_router)

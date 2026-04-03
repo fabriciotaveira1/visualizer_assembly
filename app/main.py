@@ -14,6 +14,7 @@ from app.presenca import models as presenca_models  # noqa: F401
 from app.procuracao import models as procuracao_models  # noqa: F401
 from app.unidade import models as unidade_models  # noqa: F401
 from app.auth import models as auth_models  # noqa: F401
+from app.configuracoes import models as configuracoes_models  # noqa: F401
 from app.votacao import models as votacao_models  # noqa: F401
 
 logger = logging.getLogger(__name__)
