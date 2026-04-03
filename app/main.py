@@ -10,6 +10,8 @@ from app.condominio import models as condominio_models  # noqa: F401
 from app.core.database import engine, initialize_database
 from app.integracoes.importador import models as importador_models  # noqa: F401
 from app.morador import models as morador_models  # noqa: F401
+from app.presenca import models as presenca_models  # noqa: F401
+from app.procuracao import models as procuracao_models  # noqa: F401
 from app.unidade import models as unidade_models  # noqa: F401
 from app.auth import models as auth_models  # noqa: F401
 from app.votacao import models as votacao_models  # noqa: F401

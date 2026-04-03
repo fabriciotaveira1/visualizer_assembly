@@ -152,7 +152,9 @@ CREATE TABLE procuracoes (
     unidade_origem_id UUID REFERENCES unidades(id),
     unidade_destino_id UUID REFERENCES unidades(id),
 
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+
+    UNIQUE (assembleia_id, unidade_origem_id)
 );
 
 -- =============================
@@ -288,4 +290,5 @@ CREATE INDEX idx_unidades_condominio ON unidades(condominio_id);
 CREATE INDEX idx_moradores_unidade ON moradores(unidade_id);
 CREATE INDEX idx_votos_pauta ON votos(pauta_id);
 CREATE INDEX idx_presenca_assembleia ON presencas(assembleia_id);
+CREATE INDEX idx_procuracoes_assembleia ON procuracoes(assembleia_id);
 CREATE INDEX idx_pautas_assembleia ON pautas(assembleia_id);
