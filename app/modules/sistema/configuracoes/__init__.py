@@ -1,0 +1,3 @@
+"""Condominium settings module."""
+
+

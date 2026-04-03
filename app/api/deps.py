@@ -7,3 +7,4 @@ from app.core.database import get_db_session
 
 def get_db() -> Generator[Session, None, None]:
     yield from get_db_session()
+

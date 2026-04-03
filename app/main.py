@@ -5,17 +5,17 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.api.router import router as api_router
-from app.condominio import models as condominio_models  # noqa: F401
+from app.api.v1.api import router as api_router
+from app.modules.condominio.condominio import models as condominio_models  # noqa: F401
 from app.core.database import engine, initialize_database
-from app.integracoes.importador import models as importador_models  # noqa: F401
-from app.morador import models as morador_models  # noqa: F401
-from app.presenca import models as presenca_models  # noqa: F401
-from app.procuracao import models as procuracao_models  # noqa: F401
-from app.unidade import models as unidade_models  # noqa: F401
-from app.auth import models as auth_models  # noqa: F401
-from app.configuracoes import models as configuracoes_models  # noqa: F401
-from app.votacao import models as votacao_models  # noqa: F401
+from app.modules.sistema.integracoes.importador import models as importador_models  # noqa: F401
+from app.modules.condominio.morador import models as morador_models  # noqa: F401
+from app.modules.assembleia.presenca import models as presenca_models  # noqa: F401
+from app.modules.assembleia.procuracao import models as procuracao_models  # noqa: F401
+from app.modules.condominio.unidade import models as unidade_models  # noqa: F401
+from app.modules.usuarios.auth import models as auth_models  # noqa: F401
+from app.modules.sistema.configuracoes import models as configuracoes_models  # noqa: F401
+from app.modules.assembleia.votacao import models as votacao_models  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
@@ -38,9 +38,10 @@ def create_application() -> FastAPI:
         lifespan=lifespan,
     )
 
-    app.include_router(api_router)
+    app.include_router(api_router, prefix="/api/v1")
 
     return app
 
 
 app = create_application()
+

@@ -136,3 +136,4 @@ def _ensure_votacao_schema(inspector) -> None:
     with engine.begin() as connection:
         for statement in statements:
             connection.exec_driver_sql(statement)
+

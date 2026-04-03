@@ -71,7 +71,7 @@ def get_current_user(
     db: Annotated[Session, Depends(get_db)],
     token: Annotated[str, Depends(oauth2_scheme)],
 ):
-    from app.auth.service import get_user_by_id
+    from app.modules.usuarios.auth.service import get_user_by_id
 
     token_data = decode_access_token(token)
     user = get_user_by_id(db, token_data.sub)
@@ -93,7 +93,7 @@ def get_current_user_optional(
 
     token_data = decode_access_token(token)
 
-    from app.auth.service import get_user_by_id
+    from app.modules.usuarios.auth.service import get_user_by_id
 
     user = get_user_by_id(db, token_data.sub)
     if user is None:
@@ -138,3 +138,4 @@ def require_roles(*roles: str) -> Callable:
         return current_user
 
     return roles_dependency
+

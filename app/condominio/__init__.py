@@ -1,1 +1,0 @@
-"""Condominium domain module."""
