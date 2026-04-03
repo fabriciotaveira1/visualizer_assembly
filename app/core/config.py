@@ -10,7 +10,11 @@ class Settings(BaseSettings):
     DATABASE_URL: str = Field(
         default="postgresql+psycopg://postgres:postgres@localhost:5432/postgres"
     )
-    SECRET_KEY: str = Field(default="change-me")
+    SECRET_KEY: str = Field(
+        default="change-me-with-a-strong-32-char-secret"
+    )
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=60)
+    ALGORITHM: str = Field(default="HS256")
 
     model_config = SettingsConfigDict(
         env_file=".env",

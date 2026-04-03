@@ -1,6 +1,7 @@
 from collections.abc import Generator
+from pathlib import Path
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
@@ -27,3 +28,20 @@ def get_db_session() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
+
+
+def initialize_database() -> None:
+    inspector = inspect(engine)
+    if inspector.has_table("usuarios"):
+        return
+
+    sql_path = Path(__file__).resolve().parents[2] / "database.sql"
+    script = sql_path.read_text(encoding="utf-8")
+
+    raw_connection = engine.raw_connection()
+    try:
+        cursor = raw_connection.cursor()
+        cursor.execute(script)
+        raw_connection.commit()
+    finally:
+        raw_connection.close()
