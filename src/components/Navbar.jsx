@@ -9,6 +9,7 @@ export default function Navbar() {
     { to: "/dashboard", label: "Dashboard" },
     { to: "/condominios", label: "Condominios" },
     { to: "/unidades", label: "Unidades" },
+    { to: "/assembleias", label: "Assembleias" },
   ];
 
   function handleLogout() {
