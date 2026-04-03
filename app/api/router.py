@@ -5,6 +5,7 @@ from app.condominio.router import router as condominio_router
 from app.integracoes.importador.router import router as importador_router
 from app.morador.router import router as morador_router
 from app.unidade.router import router as unidade_router
+from app.votacao.router import router as votacao_router
 
 
 router = APIRouter()
@@ -13,6 +14,7 @@ router.include_router(condominio_router)
 router.include_router(unidade_router)
 router.include_router(morador_router)
 router.include_router(importador_router)
+router.include_router(votacao_router)
 
 
 @router.get("/health", tags=["health"])

@@ -113,8 +113,18 @@ CREATE TABLE pautas (
 
     versao INTEGER DEFAULT 1,
     bloqueada BOOLEAN DEFAULT FALSE,
+    modo_votacao TEXT DEFAULT 'manual', -- manual, importado, resultado_manual
 
     created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE opcoes_votacao (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    pauta_id UUID REFERENCES pautas(id) NOT NULL,
+    codigo INTEGER NOT NULL,
+    descricao TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE (pauta_id, codigo)
 );
 
 -- =============================
@@ -157,13 +167,29 @@ CREATE TABLE votos (
     voto TEXT, -- sim, nao, abstencao
 
     tipo_voto TEXT, -- direto, procuracao
+    tipo_origem TEXT, -- manual, importado
+    codigo_opcao INTEGER,
+    descricao_opcao TEXT,
     peso NUMERIC,
+    ip TEXT,
+    data_voto TIMESTAMP,
 
     registrado_por UUID REFERENCES usuarios(id),
 
     created_at TIMESTAMP DEFAULT NOW(),
 
     UNIQUE (pauta_id, unidade_id)
+);
+
+CREATE TABLE resultados_manuais (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    pauta_id UUID REFERENCES pautas(id) NOT NULL,
+    codigo_opcao INTEGER NOT NULL,
+    descricao_opcao TEXT NOT NULL,
+    quantidade_votos INTEGER NOT NULL,
+    peso_total NUMERIC NOT NULL,
+    percentual NUMERIC NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
 -- =============================

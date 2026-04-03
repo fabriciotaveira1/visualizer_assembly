@@ -61,8 +61,8 @@ async def import_unidades_csv(
     file: UploadFile,
 ) -> dict[str, Any]:
     validate_unidades_context(db, condominio_id)
-    rows = parse_csv_unidades(await _read_csv_content(file))
-    importacao = _create_importacao(db, condominio_id, "unidades", file.filename)
+    rows = parse_csv_unidades(await read_csv_upload(file))
+    importacao = create_importacao_log(db, condominio_id, "unidades", file.filename)
     seen_identificadores: set[str] = set()
     erros: list[dict[str, Any]] = []
     sucessos = 0
@@ -90,13 +90,7 @@ async def import_unidades_csv(
             db.rollback()
             erros.append(_build_error(index, [f"Unexpected error: {exc}"], row))
 
-    result = _finalize_importacao(
-        db=db,
-        importacao=importacao,
-        processados=len(rows),
-        sucessos=sucessos,
-        erros=erros,
-    )
+    result = finalize_importacao_log(db, importacao, len(rows), sucessos, erros)
     return result.to_dict()
 
 
@@ -106,8 +100,8 @@ async def import_moradores_csv(
     file: UploadFile,
 ) -> dict[str, Any]:
     validate_moradores_context(db, condominio_id)
-    rows = parse_csv_moradores(await _read_csv_content(file))
-    importacao = _create_importacao(db, condominio_id, "moradores", file.filename)
+    rows = parse_csv_moradores(await read_csv_upload(file))
+    importacao = create_importacao_log(db, condominio_id, "moradores", file.filename)
     erros: list[dict[str, Any]] = []
     sucessos = 0
 
@@ -129,17 +123,11 @@ async def import_moradores_csv(
             db.rollback()
             erros.append(_build_error(index, [f"Unexpected error: {exc}"], row))
 
-    result = _finalize_importacao(
-        db=db,
-        importacao=importacao,
-        processados=len(rows),
-        sucessos=sucessos,
-        erros=erros,
-    )
+    result = finalize_importacao_log(db, importacao, len(rows), sucessos, erros)
     return result.to_dict()
 
 
-async def _read_csv_content(file: UploadFile) -> str:
+async def read_csv_upload(file: UploadFile) -> str:
     if not file.filename or not file.filename.lower().endswith(".csv"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -271,7 +259,7 @@ def _build_error(index: int, messages: list[str], row: dict[str, Any]) -> dict[s
     }
 
 
-def _create_importacao(
+def create_importacao_log(
     db: Session,
     condominio_id: UUID,
     tipo: str,
@@ -292,7 +280,7 @@ def _create_importacao(
     return importacao
 
 
-def _finalize_importacao(
+def finalize_importacao_log(
     db: Session,
     importacao: Importacao,
     processados: int,

@@ -12,6 +12,7 @@ from app.integracoes.importador import models as importador_models  # noqa: F401
 from app.morador import models as morador_models  # noqa: F401
 from app.unidade import models as unidade_models  # noqa: F401
 from app.auth import models as auth_models  # noqa: F401
+from app.votacao import models as votacao_models  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
