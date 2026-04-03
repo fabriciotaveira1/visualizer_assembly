@@ -124,3 +124,17 @@ def require_role(role: str) -> Callable:
         return current_user
 
     return role_dependency
+
+
+def require_roles(*roles: str) -> Callable:
+    allowed_roles = set(roles)
+
+    def roles_dependency(current_user=Depends(get_current_active_user)):
+        if current_user.perfil not in allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Insufficient permissions.",
+            )
+        return current_user
+
+    return roles_dependency

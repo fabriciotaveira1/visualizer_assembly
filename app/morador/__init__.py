@@ -1,0 +1,1 @@
+"""Resident domain module."""

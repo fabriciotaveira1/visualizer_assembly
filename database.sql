@@ -193,6 +193,8 @@ CREATE TABLE importacoes (
 
     status TEXT,
     erros JSONB,
+    quantidade_processada INTEGER DEFAULT 0,
+    quantidade_sucesso INTEGER DEFAULT 0,
 
     created_at TIMESTAMP DEFAULT NOW()
 );
